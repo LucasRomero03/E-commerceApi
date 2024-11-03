@@ -31,13 +31,22 @@ public class ProductService {
 
   }
 
-  @Transactional(readOnly = true)
+ /*  @Transactional(readOnly = true)
   public Page<ProductDto> findAll( Pageable pageable) {
     
     Page<Product> listProducts = productRepository.findAll(pageable);
     return listProducts.map(x -> new ProductDto(x));
+    esse aq é o metodo usando o finda all normal do repository
+  }*/
+  //metodo personalizado com jpql
+  @Transactional(readOnly = true)
+  public Page<ProductDto> searchByName(String name, Pageable pageable) {
+    
+    Page<Product> listProducts = productRepository.searchByName(name,pageable);
+    return listProducts.map(x -> new ProductDto(x));
 
   }
+
 
   @Transactional
   public ProductDto insert (ProductDto productDto ) {

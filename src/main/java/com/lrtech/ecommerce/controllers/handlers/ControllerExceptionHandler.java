@@ -21,7 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class ControllerExceptionHandler {
   
 
-  @ExceptionHandler(ResourceNotFoundException.class)
+   @ExceptionHandler(ResourceNotFoundException.class)
   public ResponseEntity<CustomError> resourceNotFound(ResourceNotFoundException message, HttpServletRequest request){
     HttpStatus status = HttpStatus.NOT_FOUND;
     CustomError error = new CustomError(Instant.now(),status.value(), message.getMessage(), request.getRequestURI());

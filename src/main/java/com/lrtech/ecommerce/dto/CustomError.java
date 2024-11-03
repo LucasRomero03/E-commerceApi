@@ -17,7 +17,7 @@ public class CustomError {
     this.path = path;
   }
 
-
+  
 
 
   public Integer getStatus() {
