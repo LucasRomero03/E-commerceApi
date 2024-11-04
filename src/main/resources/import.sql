@@ -38,7 +38,7 @@ INSERT INTO tb_product_category (category_id, product_id) VALUES (3, 7);
 INSERT INTO tb_product_category (category_id, product_id) VALUES (3, 8);
 INSERT INTO tb_product_category (category_id, product_id) VALUES (3, 9);
 INSERT INTO tb_product_category (category_id, product_id) VALUES (3, 10);
-INSERT INTO tb_product_category (category_id, product_id) VALUES (3, 11);
+
 INSERT INTO tb_product_category (category_id, product_id) VALUES (3, 12);
 INSERT INTO tb_product_category (category_id, product_id) VALUES (3, 13);
 INSERT INTO tb_product_category (category_id, product_id) VALUES (3, 14);
@@ -55,8 +55,8 @@ INSERT INTO tb_product_category (category_id, product_id) VALUES (3, 24);
 INSERT INTO tb_product_category (category_id, product_id) VALUES (3, 25);
 INSERT INTO tb_product_category (category_id, product_id) VALUES (2, 25);
 
-INSERT INTO tb_user (user_name, email, phone, password, birth_date) VALUES ('Alex Green', 'alex@gmail.com', '977777777', '$2a$10$f.VzqFn2nvzVOjheOPAMMOaHCV8xYuoxApV0MVMbvDMTiSrtP4MRm', '1987-12-13');
 INSERT INTO tb_user (user_name, email, phone, password, birth_date) VALUES ('Maria Brown', 'maria@gmail.com', '988888888', '$2a$10$f.VzqFn2nvzVOjheOPAMMOaHCV8xYuoxApV0MVMbvDMTiSrtP4MRm', '2001-07-25');
+INSERT INTO tb_user (user_name, email, phone, password, birth_date) VALUES ('Alex Green', 'alex@gmail.com', '977777777', '$2a$10$f.VzqFn2nvzVOjheOPAMMOaHCV8xYuoxApV0MVMbvDMTiSrtP4MRm', '1987-12-13');
 
 INSERT INTO tb_role (authority) VALUES ('ROLE_OPERATOR');
 INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN');

@@ -1,6 +1,7 @@
 package com.lrtech.ecommerce.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,5 +24,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     //  +
       //"FROM User JOIN User.roles Role")
   //List<UserDetailsDTO> searchUserAndRolesByEmail1();
-
+  
+  Optional<User> findByEmail(String email);
 }
