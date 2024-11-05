@@ -1,5 +1,9 @@
 package com.lrtech.ecommerce.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.lrtech.ecommerce.entities.Product;
 
 import jakarta.validation.constraints.NotBlank;
@@ -21,6 +25,8 @@ public class ProductDto {
   private Double price;
   private String imgUrl;
 
+  private List<CategoryDto> categories = new ArrayList<>();
+
 
   
 
@@ -38,6 +44,8 @@ public class ProductDto {
     description = product.getDescription();
     price = product.getPrice();
     imgUrl = product.getImgUrl();
+    categories= product.getCategories().stream().map(x -> new CategoryDto(x)).collect(Collectors.toList());
+    
   }
 
 
@@ -65,6 +73,10 @@ public class ProductDto {
 
   public String getImgUrl() {
     return imgUrl;
+  }
+
+  public List<CategoryDto> getCategories() {
+    return categories;
   }
   
   

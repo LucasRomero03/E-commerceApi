@@ -9,9 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lrtech.ecommerce.dto.CategoryDto;
 import com.lrtech.ecommerce.dto.ProductDto;
 import com.lrtech.ecommerce.dto.ProductMinDto;
+import com.lrtech.ecommerce.entities.Category;
 import com.lrtech.ecommerce.entities.Product;
+import com.lrtech.ecommerce.repositories.CategoryRepository;
 import com.lrtech.ecommerce.repositories.ProductRepository;
 import com.lrtech.ecommerce.services.exceptions.DataBaseException;
 import com.lrtech.ecommerce.services.exceptions.ResourceNotFoundException;
@@ -21,6 +24,8 @@ import jakarta.persistence.EntityNotFoundException;
 @Service
 public class ProductService {
 
+  @Autowired
+  private CategoryRepository categoryRepository;
 
   @Autowired
   private ProductRepository productRepository;
@@ -53,6 +58,10 @@ public class ProductService {
   public ProductDto insert (ProductDto productDto ) {
     Product product = new Product();
     dtoToEntity(product, productDto);
+    for ( CategoryDto cat : productDto.getCategories()) {
+      Category e = categoryRepository.getReferenceById(cat.getId());
+      product.getCategories().add(e);
+    }
     product = productRepository.save(product);
 
     return new ProductDto(product);
