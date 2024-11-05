@@ -19,6 +19,18 @@ public class UserDto {
 
   private List<String> roles = new ArrayList<>();
 
+
+
+  
+  public UserDto(Long userId, String userName, String phone, String email, LocalDate birthDate, List<String> roles) {
+    this.userId = userId;
+    this.userName = userName;
+    this.phone = phone;
+    this.email = email;
+    this.birthDate = birthDate;
+    this.roles = roles;
+  }
+
   public UserDto(User user) {
     userId = user.getUserId();
     userName = user.getUserName();

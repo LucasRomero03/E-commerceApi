@@ -9,8 +9,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 @Entity
@@ -23,10 +21,7 @@ public class Role implements GrantedAuthority {
   private Long id;
   private String authority;
 
-@ManyToMany
-  @JoinTable(name ="tb_user_role",
-              joinColumns = @JoinColumn(name = "role_id"),
-              inverseJoinColumns = @JoinColumn(name = "user_id"))
+  @ManyToMany(mappedBy = "roles")
   private Set<User> users = new HashSet<>();
 
   public Role() {
@@ -83,6 +78,17 @@ public class Role implements GrantedAuthority {
     } else if (!authority.equals(other.authority))
       return false;
     return true;
+  }
+
+
+  public Set<User> getUsers() {
+    return users;
+  }
+
+
+  @Override
+  public String toString() {
+    return "Role [id=" + id + ", authority=" + authority + ", users=" + users + "]";
   }
   
   

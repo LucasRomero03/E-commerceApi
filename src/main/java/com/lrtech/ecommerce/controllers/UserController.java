@@ -1,14 +1,21 @@
 package com.lrtech.ecommerce.controllers;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lrtech.ecommerce.dto.UserDto;
+import com.lrtech.ecommerce.dto.UserRegisterDto;
 import com.lrtech.ecommerce.services.UserService;
+
 
 @RestController
 @RequestMapping(value = "/users")
@@ -37,5 +44,13 @@ public class UserController {
    * }
    */
 
+@PostMapping
+  public ResponseEntity <UserRegisterDto> registerMe(@RequestBody UserRegisterDto userRegisterDto) {
+      userRegisterDto= userService.registerMe(userRegisterDto);
+      URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(userRegisterDto.getUserId()).toUri();
+      return ResponseEntity.created(uri).body(userRegisterDto);
+  }
+  
+   
  
 }

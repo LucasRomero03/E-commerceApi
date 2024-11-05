@@ -15,6 +15,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -34,7 +36,11 @@ public class User implements UserDetails {
   private String email;
   private LocalDate birthDate;
 
-  @ManyToMany(mappedBy = "users")
+  
+  @ManyToMany
+  @JoinTable(name ="tb_user_role",
+              joinColumns = @JoinColumn(name = "user_id"),
+              inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
   @OneToMany(mappedBy = "client")
@@ -103,6 +109,11 @@ public class User implements UserDetails {
   public List<Order> getOrders() {
     return orders;
   }
+  
+
+  public void setRoles(Set<Role> roles) {
+    this.roles = roles;
+  }
 
   public void addRole(Role role) {
     roles.add(role);
@@ -145,7 +156,9 @@ public class User implements UserDetails {
       return false;
     return true;
   }
-
+  
+  
+  
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return roles;
@@ -174,5 +187,9 @@ public class User implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
+  }
+
+  public Set<Role> getRoles() {
+    return roles;
   }
 }
