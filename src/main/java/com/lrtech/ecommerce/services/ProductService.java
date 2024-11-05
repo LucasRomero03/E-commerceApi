@@ -1,10 +1,6 @@
 package com.lrtech.ecommerce.services;
 
 
-import com.lrtech.ecommerce.services.exceptions.*;
-
-import jakarta.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -14,8 +10,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lrtech.ecommerce.dto.ProductDto;
+import com.lrtech.ecommerce.dto.ProductMinDto;
 import com.lrtech.ecommerce.entities.Product;
 import com.lrtech.ecommerce.repositories.ProductRepository;
+import com.lrtech.ecommerce.services.exceptions.DataBaseException;
+import com.lrtech.ecommerce.services.exceptions.ResourceNotFoundException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProductService {
@@ -40,10 +41,10 @@ public class ProductService {
   }*/
   //metodo personalizado com jpql
   @Transactional(readOnly = true)
-  public Page<ProductDto> searchByName(String name, Pageable pageable) {
+  public Page<ProductMinDto> searchByName(String name, Pageable pageable) {
     
     Page<Product> listProducts = productRepository.searchByName(name,pageable);
-    return listProducts.map(x -> new ProductDto(x));
+    return listProducts.map(x -> new ProductMinDto(x));
 
   }
 
