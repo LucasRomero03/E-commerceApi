@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import com.lrtech.ecommerce.entities.Product;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
@@ -25,6 +26,7 @@ public class ProductDto {
   private Double price;
   private String imgUrl;
 
+@NotEmpty(message = "deve ter pelo menos 1 categoria")
   private List<CategoryDto> categories = new ArrayList<>();
 
 
