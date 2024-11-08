@@ -73,6 +73,14 @@ public class UserService implements UserDetailsService {
     }
 
   }
+  @Transactional(readOnly = true)
+  public List<UserDto> getAllUsers(){
+    List<User> result = userRepository.findAll();
+
+
+
+    return result.stream().map(x-> new UserDto(x)).toList();
+  }
 
   @Transactional
   public UserRegisterDto registerMe(UserRegisterDto dto) {

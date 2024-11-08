@@ -37,6 +37,7 @@ public class User implements UserDetails {
   private LocalDate birthDate;
 
   
+  
   @ManyToMany
   @JoinTable(name ="tb_user_role",
               joinColumns = @JoinColumn(name = "user_id"),

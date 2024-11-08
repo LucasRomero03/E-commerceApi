@@ -1,6 +1,7 @@
 package com.lrtech.ecommerce.controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.lrtech.ecommerce.dto.UserDto;
 import com.lrtech.ecommerce.dto.UserRegisterDto;
 import com.lrtech.ecommerce.services.UserService;
+
 
 
 @RestController
@@ -33,6 +35,15 @@ public class UserController {
     return ResponseEntity.ok(userDto);
 
   }
+  @GetMapping
+  public ResponseEntity<List<UserDto>> getAllUsers() {
+
+    List< UserDto> result = userService.getAllUsers();
+
+    return ResponseEntity.ok(result);
+
+  }
+  
 
   /*
    * @GetMapping padrao

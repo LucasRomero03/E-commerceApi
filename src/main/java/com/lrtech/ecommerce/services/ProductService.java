@@ -44,6 +44,8 @@ public class ProductService {
     return listProducts.map(x -> new ProductDto(x));
     esse aq é o metodo usando o finda all normal do repository
   }*/
+
+  
   //metodo personalizado com jpql
   @Transactional(readOnly = true)
   public Page<ProductMinDto> searchByName(String name, Pageable pageable) {

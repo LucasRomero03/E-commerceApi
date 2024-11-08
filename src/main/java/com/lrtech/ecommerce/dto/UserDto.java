@@ -41,6 +41,10 @@ public class UserDto {
       roles.add(role.getAuthority());
     }
   }
+  
+
+  public UserDto() {
+  }
 
   public Long getUserId() {
     return userId;
