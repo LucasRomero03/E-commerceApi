@@ -29,29 +29,31 @@ public class ProductService {
 
   @Autowired
   private ProductRepository productRepository;
+
+
   @Transactional(readOnly = true)
-  public ProductDto findById( Long id) {
+  public ProductDto getById( Long id) {
     
-    Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado"));
+    Product product = productRepository.getById(id);
     return new ProductDto(product);
 
   }
 
- /*  @Transactional(readOnly = true)
+  @Transactional(readOnly = true)
   public Page<ProductDto> findAll( Pageable pageable) {
     
-    Page<Product> listProducts = productRepository.findAll(pageable);
+    Page<Product> listProducts = productRepository.getAll(pageable);
     return listProducts.map(x -> new ProductDto(x));
-    esse aq é o metodo usando o finda all normal do repository
-  }*/
+   // meotdo personalizado usando o join feth
+  }
 
   
   //metodo personalizado com jpql
   @Transactional(readOnly = true)
-  public Page<ProductMinDto> searchByName(String name, Pageable pageable) {
-    
+  public Page<ProductDto> searchByName(String name, Pageable pageable) {
+  
     Page<Product> listProducts = productRepository.searchByName(name,pageable);
-    return listProducts.map(x -> new ProductMinDto(x));
+    return listProducts.map(x -> new ProductDto(x));
 
   }
 

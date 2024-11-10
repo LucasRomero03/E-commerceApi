@@ -3,7 +3,10 @@ package com.lrtech.ecommerce.controllers;
 import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +21,7 @@ import com.lrtech.ecommerce.services.OrderService;
 import jakarta.validation.Valid;
 
 
+
 @RestController
 @RequestMapping(value = "/orders")
 public class OrderController {
@@ -25,7 +29,7 @@ public class OrderController {
   @Autowired
   private OrderService orderService;
 
-  
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_OPERATOR')")
   @GetMapping(value = "/{id}")
   public ResponseEntity<OrderDto> findById(@PathVariable Long id) {
 
@@ -41,6 +45,13 @@ public class OrderController {
       URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
       return ResponseEntity.created(uri).body(dto);
   }
+
+  @GetMapping
+  public ResponseEntity<Page<OrderDto>> getAll(Pageable pageable) {
+      Page<OrderDto> dto = orderService.getAll(pageable);
+      return ResponseEntity.ok(dto);
+  }
+  
 
   /*@GetMapping padrao
   public ResponseEntity<Page<ProductDto>> findAll(Pageable pageable) {

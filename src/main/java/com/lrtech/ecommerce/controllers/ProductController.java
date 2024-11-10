@@ -5,6 +5,7 @@ import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,7 +37,7 @@ public class ProductController {
   @GetMapping(value = "/{id}")
   public ResponseEntity<ProductDto> findById(@PathVariable Long id) {
 
-    ProductDto productDto=  productService.findById(id);
+    ProductDto productDto=  productService.getById(id);
 
     return ResponseEntity.ok(productDto);
 
@@ -51,9 +52,16 @@ public class ProductController {
   }*/
 
   @GetMapping
-  public ResponseEntity<Page<ProductMinDto>> findAll(@RequestParam(name = "name", defaultValue = "") String name,Pageable pageable) {
+  public ResponseEntity<Page<ProductDto>> findAll(Pageable pageable) {
 
-    Page<ProductMinDto> productDto = productService.searchByName(name,pageable);
+    Page<ProductDto> productDto = productService.findAll(pageable);
+
+    return ResponseEntity.ok(productDto);
+  }
+  @GetMapping(value = "/name")
+  public ResponseEntity<Page<ProductDto>> searchByName(@RequestParam(name = "name", defaultValue = "") String name, Pageable pageable) {
+
+    Page<ProductDto> productDto = productService.searchByName(name,pageable);
 
     return ResponseEntity.ok(productDto);
   }

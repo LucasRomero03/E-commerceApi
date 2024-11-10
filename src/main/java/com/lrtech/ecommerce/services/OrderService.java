@@ -1,8 +1,11 @@
 package com.lrtech.ecommerce.services;
 
 import java.time.Instant;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,11 +32,17 @@ public class OrderService {
   private UserService userService;
   @Autowired
   private ProductRepository productRepository;
+  @Autowired
+  private AuthService authService;
 
+  
   @Transactional(readOnly = true)
   public OrderDto findById(Long id) {
     Order order = repository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado"));
+
+    authService.validateSelfOrAdmin(order.getClient().getUserId());
+
     return new OrderDto(order);
 
   }
@@ -60,6 +69,13 @@ public class OrderService {
 
     return new OrderDto(order);
   }
-  
+  @Transactional(readOnly = true)
+  public Page<OrderDto> getAll(Pageable pageable){
+
+    Page<Order> result1 = repository.getAll(pageable);
+    
+    return result1.map(x -> new OrderDto(x));
+
+  }
 
 }
