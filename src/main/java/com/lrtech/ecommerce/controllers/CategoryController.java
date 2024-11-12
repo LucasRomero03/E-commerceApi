@@ -15,11 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lrtech.ecommerce.dto.CategoryDto;
-import com.lrtech.ecommerce.dto.ProductDto;
 import com.lrtech.ecommerce.services.CategoryService;
-
-import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 
 
 
