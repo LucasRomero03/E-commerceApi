@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.lrtech.ecommerce.dto.FieldMessage;
 import com.lrtech.ecommerce.dto.ProductDto;
 import com.lrtech.ecommerce.dto.ValidationError;
 import com.lrtech.ecommerce.services.ProductService;
@@ -77,10 +76,9 @@ public class ProductController {
   }
 
   @GetMapping(value = "/name")
-  public ResponseEntity<Page<ProductDto>> searchByName(@RequestParam(name = "name", defaultValue = "") String name,
-      Pageable pageable) {
+  public ResponseEntity<Page<ProductDto>> searchByName(@RequestParam(name = "name") String name, @RequestParam(name = "catNames", defaultValue = "") String catname,      Pageable pageable) {
 
-    Page<ProductDto> productDto = productService.searchByName(name, pageable);
+    Page<ProductDto> productDto = productService.searchByNameAndCategories(name,catname, pageable);
 
     return ResponseEntity.ok(productDto);
   }
