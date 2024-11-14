@@ -57,6 +57,7 @@ public class OrderItem {
   public void setPrice(Double price) {
     this.price = price;
   }
+  
 
   @Override
   public int hashCode() {
@@ -81,6 +82,12 @@ public class OrderItem {
     } else if (!id.equals(other.id))
       return false;
     return true;
+  }
+
+  
+
+  public OrderItemPk getId() {
+    return id;
   }
 
 }

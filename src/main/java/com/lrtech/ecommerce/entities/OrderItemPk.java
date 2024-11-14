@@ -17,6 +17,13 @@ public class OrderItemPk {
 
   public OrderItemPk() {
   }
+ 
+
+  public OrderItemPk(Order order, Product product) {
+    this.order = order;
+    this.product = product;
+  }
+
 
   public Order getOrder() {
     return order;
@@ -64,5 +71,7 @@ public class OrderItemPk {
       return false;
     return true;
   }
+
+ 
 
 }

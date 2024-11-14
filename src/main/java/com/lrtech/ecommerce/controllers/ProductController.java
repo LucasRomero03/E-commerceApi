@@ -76,7 +76,7 @@ public class ProductController {
   }
 
   @GetMapping(value = "/name")
-  public ResponseEntity<Page<ProductDto>> searchByName(@RequestParam(name = "name") String name, @RequestParam(name = "catNames", defaultValue = "") String catname,      Pageable pageable) {
+  public ResponseEntity<Page<ProductDto>> searchByName(@RequestParam(name = "name", defaultValue = "") String name, @RequestParam(name = "catNames", defaultValue = "") String catname,      Pageable pageable) {
 
     Page<ProductDto> productDto = productService.searchByNameAndCategories(name,catname, pageable);
 

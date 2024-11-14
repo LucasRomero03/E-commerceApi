@@ -15,6 +15,10 @@ public interface OrderRepository extends JpaRepository<Order,Long>{
            " JOIN FETCH obj.items item " +
            " JOIN FETCH obj.items.id.product")
   Page<Order> getAll(Pageable pageable);
+  
+  
 
+  @SuppressWarnings("null")
+  Page<Order> findAll(Pageable pageable);
   
 }
