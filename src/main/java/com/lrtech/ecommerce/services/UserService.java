@@ -23,6 +23,7 @@ import com.lrtech.ecommerce.entities.Role;
 import com.lrtech.ecommerce.entities.User;
 import com.lrtech.ecommerce.repositories.RoleRepository;
 import com.lrtech.ecommerce.repositories.UserRepository;
+import com.lrtech.ecommerce.services.exceptions.DataBaseException;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -117,6 +118,45 @@ public class UserService implements UserDetailsService {
     User user = authenticated();
 
     return new UserDto(user);
+  }
+
+
+  @Transactional
+  public void deleteUser(Long id){
+      User user = userRepository.getReferenceById(id);
+
+      user.getAuthorities().clear();
+
+      userRepository.deleteById(user.getUserId());
+
+    
+
+  }
+
+  @Transactional
+  public UserRegisterDto updateUser(Long id, UserRegisterDto dto){
+    User user = userRepository.getReferenceById(id);
+    
+
+    try {
+      
+      user.setUserName(dto.getUserName());
+      user.setEmail(dto.getEmail());
+      user.setBirthDate(dto.getBirthDate());
+      user.setPhone(dto.getPhone());
+      user.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+      userRepository.save(user);
+
+      return new UserRegisterDto(user);
+
+    } catch (Exception e) {
+      throw new DataBaseException("meroshow");
+    }
+
+
+    
+
   }
 
 }

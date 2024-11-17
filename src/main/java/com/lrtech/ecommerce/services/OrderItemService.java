@@ -13,7 +13,7 @@ public class OrderItemService {
   @Autowired
   private OrderItemRepository repository;
 
-
+  
   //diferença entre suports e required 
   @Transactional(propagation = Propagation.SUPPORTS)
   public void deleteByOrderId(Long id){

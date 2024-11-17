@@ -7,14 +7,12 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lrtech.ecommerce.dto.OrderDto;
 import com.lrtech.ecommerce.dto.OrderItemDto;
 import com.lrtech.ecommerce.entities.Order;
 import com.lrtech.ecommerce.entities.OrderItem;
-import com.lrtech.ecommerce.entities.OrderItemPk;
 import com.lrtech.ecommerce.entities.Product;
 import com.lrtech.ecommerce.entities.User;
 import com.lrtech.ecommerce.entities.enums.OrderStatus;
@@ -86,36 +84,40 @@ public class OrderService {
   @Transactional
   public OrderDto update(Long id, OrderDto dto) {
 
-      Order order = repository.getReferenceById(id);
+      try {
+        Order order = repository.getReferenceById(id);
       
       
      
-     // order.setMoment(Instant.now());
-      order.setStatus(OrderStatus.WAITING_PAYMENT);
-
-
-     // User user = userService.authenticated();
-     // order.setClient(user);
-     orderItemService.deleteByOrderId(id);
-    // orderItemRepository.deleteByOrderId(order.getId()); //metodo personalizado
-      //order.getItems().clear();  -> tbm funciona 
-      repository.save(order);  // quando for entidade que mexe com outras tabelas persistir primeiro a entidade e pds mexe no resto
-     
-     
-      for (OrderItemDto item : dto.getItems()) {
-
+        // order.setMoment(Instant.now());
+         order.setStatus(OrderStatus.WAITING_PAYMENT);
+   
+   
+        // User user = userService.authenticated();
+        // order.setClient(user);
+        orderItemService.deleteByOrderId(id);
+       // orderItemRepository.deleteByOrderId(order.getId()); //metodo personalizado
+         //order.getItems().clear();  -> tbm funciona  //chmar so o clear se precisa trocar para rquired tm ou nao 
+         repository.save(order);  // quando for entidade que mexe com outras tabelas persistir primeiro a entidade e pds mexe no resto
         
-        Product product = productRepository.getReferenceById(item.getProductId());
-        OrderItem orderItem = new OrderItem(order, product, item.getQuantity(), product.getPrice());
-        order.getItems().add(orderItem);
-
-      }
+        
+         for (OrderItemDto item : dto.getItems()) {
+   
+           
+           Product product = productRepository.getReferenceById(item.getProductId());
+           OrderItem orderItem = new OrderItem(order, product, item.getQuantity(), product.getPrice());
+           order.getItems().add(orderItem);
+   
+         }
+         
+        
+         // tem que salvar por ser um relacionamento de terceiros
+         orderItemRepository.saveAll(order.getItems());
+   
+         return new OrderDto(order);  
+      } catch (Exception e) {
+       throw new ResourceNotFoundException("meroshow")   ;   }
       
-     
-      // tem que salvar por ser um relacionamento de terceiros
-      orderItemRepository.saveAll(order.getItems());
-
-      return new OrderDto(order);
 
    
 
@@ -137,9 +139,10 @@ public class OrderService {
       throw new ResourceNotFoundException("Recurso não encontrado");
     }
     try {
+      
       // Remover todos os itens do pedido -> modo correto de usar 
       orderItemService.deleteByOrderId(id);
-       // orderItemRepository.deleteByOrderId(id);
+       // orderItemRepository.deleteByOrderId(id); funciona tbm 
       // Excluir o pedido
       repository.deleteById(id);
 
